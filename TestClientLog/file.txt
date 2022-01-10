@@ -1,3 +1,3 @@
-1 2021-12-18 07:18:26 User: Ivan Сообщение: Hello Jon
-2 2021-12-18 07:19:18 User: Jon Сообщение: Hello
-3 2021-12-18 07:19:19 User: Jon Сообщение: and bye
+1 2021-12-18 07:18:26 User: Ivan Message: Hello Jon
+2 2021-12-18 07:19:18 User: Jon Message: Hello
+3 2021-12-18 07:19:19 User: Jon Message: and bye

@@ -1,4 +1,4 @@
-package MyServer;
+package server;
 
 import java.io.*;
 import java.time.LocalDateTime;
@@ -19,7 +19,7 @@ public class Logger {
         return instance;
     }
 
-    public void loggerWriter(String text, String user) {
+    public synchronized String loggerWriter(String user, String text, String time) {
         try (FileWriter writer = new FileWriter(file, true);
              BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line=null;
@@ -28,18 +28,26 @@ public class Logger {
                 lastMessageLine=line;
                 //System.out.println(line);
             }
-            if (lastMessageLine==null) {
-                writer.write(1 + " " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + " User: " + user + " Сообщение: " + text);
-                writer.append('\n');
-                writer.flush();
-            } else {
-                String[] words = lastMessageLine.split(" ");
-                writer.write(Integer.parseInt(words[0]) + 1 + " " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + " User: " + user + " Сообщение: " + text);
-                writer.append('\n');
-                writer.flush();
+            if(lastMessageLine==null){
+                lastMessageLine="0";
             }
+
+            /*if (lastMessageLine==null) {
+                writer.write(1 + " " +time+ " User: " + user + " Message: " + text);
+                writer.append('\n');
+                writer.flush();
+                return 1;
+            } else {*/
+                String[] words = lastMessageLine.split(" ");
+                int lastNumberMessage = Integer.parseInt(words[0]) + 1;
+                writer.write(lastNumberMessage + " " +time+ " User: " + user + " Message: " + text);
+                writer.append('\n');
+                writer.flush();
+                return String.valueOf(lastNumberMessage);
+           // }
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+        return null;
     }
 }

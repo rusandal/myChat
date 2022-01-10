@@ -1,5 +1,4 @@
-import MyServer.Logger;
-import MyServer.Server;
+import server.Logger;
 import org.junit.jupiter.api.*;
 
 import java.io.*;
@@ -52,10 +51,11 @@ public class TestServer {
         try(BufferedReader br = new BufferedReader(new FileReader(file))){
             String text = "Тестовое сообщение";
             String name = "Тестовый пользователь";
+            String time = "2021-12-18 07:19:19";
 
-            Logger.getInstance(file).loggerWriter(text, name);
+            Logger.getInstance(file).loggerWriter(text, name, time);
 
-            Assertions.assertTrue(br.lines().anyMatch(s->s.contains("User: "+name+" Сообщение: "+text)));
+            Assertions.assertTrue(br.lines().anyMatch(s->s.contains(time+" User: "+name+" Сообщение: "+text)));
         } catch (IOException e){
             e.getMessage();
         }
