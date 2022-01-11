@@ -12,16 +12,17 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Server {
-    public static List<Socket> clients = new LinkedList<>();
-    private static ConcurrentLinkedQueue<String[]> messages = new ConcurrentLinkedQueue<>();
-    private static File file;
+    private static final Server instance = new Server();
+    private List<Socket> clients = new LinkedList<>();
+    private ConcurrentLinkedQueue<String[]> messages = new ConcurrentLinkedQueue<>();
+    private File file;
     //private static ConcurrentHashMap<Socket, LinkedList<String>> messages = new ConcurrentHashMap<>();
 
     public static void main(String[] args) {
-        getConnect();
+        Server.getInstance().getConnect();
     }
 
-    public static void getConnect(){
+    public void getConnect(){
         try (
                 ServerSocket serverSocket = new ServerSocket(23444);
         ) {
@@ -50,28 +51,32 @@ public class Server {
         return logFile;
     }
 
-    public static File getLogFile(){
+    public File getLogFile(){
         return file;
     }
 
-    public static List<Socket> getClients() {
+    public List<Socket> getClients() {
         return clients;
     }
 
-    public static ConcurrentLinkedQueue<String[]> getMessages() {
+    public ConcurrentLinkedQueue<String[]> getMessages() {
         return messages;
     }
 
-    public static void removeActiveSocket(Socket socket){
+    public void removeActiveSocket(Socket socket){
         clients.remove(socket);
     }
 
-    public static void addMessageToQueue(String numberMessageHistory, String name, String text, String time) {
+    public void addMessageToQueue(String numberMessageHistory, String name, String text, String time) {
         String[] message = {name, text, time, numberMessageHistory};
-        messages.add(message);
+        Server.getInstance().messages.add(message);
     }
 
-    public static void addActiveListClients(Socket socket) {
+    public void addActiveListClients(Socket socket) {
         clients.add(socket);
+    }
+
+    public static Server getInstance(){
+        return instance;
     }
 }

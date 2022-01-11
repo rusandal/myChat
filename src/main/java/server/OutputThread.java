@@ -14,9 +14,9 @@ public class OutputThread implements Runnable {
         ConcurrentLinkedQueue<String[]> messagesQueue;
         String[] message;
         while (true) {
-            if (!(messagesQueue = Server.getMessages()).isEmpty()) {
+            if (!(messagesQueue = Server.getInstance().getMessages()).isEmpty()) {
                 message = messagesQueue.poll();
-                for (Socket socket : Server.getClients()) {
+                for (Socket socket : Server.getInstance().getClients()) {
                     if (socket.isConnected()) {
                         try {
                             out = new PrintWriter(socket.getOutputStream(), true);

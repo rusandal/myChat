@@ -73,22 +73,27 @@ public class TestClient {
 
     @Test
     void testInputThread() {
+        Server serverSpy = Mockito.spy(Server.class);
+        /*new Thread(()->{
+            serverSpy.getConnect();
+            //Server.getInstance().getConnect();
+        });*/
         Client client = new Client();
         //String[] answers = {"test name", "test "};
         client.sendMessage("exit");
-        Server.addMessageToQueue("999", "My name", "My message", "2021-12-18 00:00:00");
+        //Server.getInstance().addMessageToQueue("999", "My name", "My message", "2021-12-18 00:00:00");
         /*while(client.receiveMessage().equals("start message")){
 
         }*/
         //ConnectExecutor connectExecutorSpy = Mockito.spy(ConnectExecutor.class);
         //Mockito.when(connectExecutorSpy.)
-        //Server serverSpy = Mockito.spy(Server.class);
-        //ConcurrentLinkedQueue<String[]> messagesQueue = new ConcurrentLinkedQueue<>();
-        //String[] message = {"999", "My name", "My message", "2021-12-18 00:00:00"};
-        /*messagesQueue.add(message);
-        Mockito.when(Server.)
+
+        ConcurrentLinkedQueue<String[]> messagesQueue = new ConcurrentLinkedQueue<>();
+        String[] message = {"999", "My name", "My message", "2021-12-18 00:00:00"};
+        messagesQueue.add(message);
+        Mockito.when(serverSpy.getMessages())
                 .thenReturn(messagesQueue);
-        System.out.println(messagesQueue);*/
+        System.out.println(messagesQueue);
         /*Mockito.when(Server.getClients())
                 .then(client.get)*/
 
@@ -107,7 +112,7 @@ public class TestClient {
         }
 
 
-        Assertions.assertTrue(Server.getMessages().isEmpty());
-        Assertions.assertEquals(Client.getNumberLastMessage(file), 999);
+        Assertions.assertTrue(Server.getInstance().getMessages().isEmpty());
+        //Assertions.assertEquals(Client.getNumberLastMessage(file), 999);
     }
 }

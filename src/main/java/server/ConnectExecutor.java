@@ -26,7 +26,7 @@ public class ConnectExecutor implements Runnable {
              //FileWriter writer = new FileWriter("ServerLog//file.txt", true);
 
         ) {
-            FileReader reader = new FileReader(Server.getLogFile());
+            FileReader reader = new FileReader(Server.getInstance().getLogFile());
             System.out.println("Новое соединение установлено");
             out.println("Добро пожаловать в чат! Введите имя");
             clientName = in.readLine();
@@ -44,13 +44,13 @@ public class ConnectExecutor implements Runnable {
             out.println("end");
 
             out.println("Вы зарегистрированы в чате как " + clientName);
-            Server.addActiveListClients(clientSocket);
+            Server.getInstance().addActiveListClients(clientSocket);
 
             String text = "";
             String time;
             while (true) {
                 if (!clientSocket.isConnected()) {
-                    Server.removeActiveSocket(clientSocket);
+                    Server.getInstance().removeActiveSocket(clientSocket);
                     break;
                 }
                 //Получаем сообщение от клиента
@@ -63,8 +63,8 @@ public class ConnectExecutor implements Runnable {
 
                 //Записываем сообщение в файл сервера
                 time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-                String numberLastMessageHistory = Logger.getInstance(Server.getLogFile()).loggerWriter(clientName, text, time);
-                Server.addMessageToQueue(numberLastMessageHistory,clientName, text, time);
+                String numberLastMessageHistory = Logger.getInstance(Server.getInstance().getLogFile()).loggerWriter(clientName, text, time);
+                Server.getInstance().addMessageToQueue(numberLastMessageHistory,clientName, text, time);
                 //concurrentHashMapMessages.put(name, text);
                 //следом получаем номер последнего сообщения клиента записанный в его файле истории
 
